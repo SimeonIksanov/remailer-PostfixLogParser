@@ -36,8 +36,8 @@ sed -n "/$prevDate/,\$p" $MailLogFile >> $fileStep1
 # STEP 2
 #
 echo "Enter Step 2"
-curlString1="curl --request POST  --url http://46.254.18.186:8080/message_status/ --header 'content-type: application/json' --data '[{"
-curlString2="}]'"
+curlString1="[{"
+curlString2="}]"
 concat="},{"
 # количество данных в одном запросе
 max=10
@@ -78,10 +78,5 @@ fi
 echo "Enter Step 3"
 # делаем вызовы curl из файла
 if [ -f $fileStep2 ]; then
-	#cat $fileStep2 >> ./nodel_fileStep2.log
-	IFS=$'\n'
-	for i in $(cat $fileStep2 );
-	do
-        	sh -c "$i"
-	done
+	curl --request POST --url http://46.254.18.186:8080/message_status/ --header 'content-type: application/json' -d @step2.log
 fi
